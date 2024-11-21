@@ -43,13 +43,27 @@ for i, j in stari_ascunse:
     ]
     vecini_valizi = [stare_to_idx[(x, y)] for x, y in vecini if 0 <= x < 10 and 0 <= y < 10]
     ######
+    init = np.zeros(100)
+    init[i] = 0.25  # 25% sa stau pe loc
+    if i % 10 != 0:
+        init[i+1] = 0.1875  # dreapta
+    if i % 10 != 9:
+        init[i-1] = 0.1875  # stanga
+    if i < 90:
+        init[i+10] = 0.1875  # jos
+    if i > 9:
+        init[i-10] = 0.1875  # sus
+    transitions[i] = init
+
+print(transitions)
+print(transitions.shape)
 
 # Matrice de emisie
 emissions = np.zeros((numar_stari, len(culori)))
-print(culoare_to_idx)
-print(grid_culori)
+# print(culoare_to_idx)
+# print(grid_culori)
 
-print(emissions)
+# print(emissions)
 ######
 
 # Modelul HMM
@@ -61,7 +75,7 @@ model.startprob_ = start_probabilities
 model.transmat_ = transitions
 model.emissionprob_ = emissions
 
-hidden_states = model.predict(observatii)
+# hidden_states = model.predict(observatii)
 
 
 
